@@ -1,6 +1,6 @@
 package main
 
-import "quizer-web/cli"
+import "quizer-web/internal/cli"
 
 func main() {
 	cli.Run()
