@@ -3,15 +3,18 @@ package cli
 import "fmt"
 
 func Run() {
-	var choice int = MainMenu()
+	for {
+		var choice int = MainMenu()
 
-	switch choice {
-	case 0:
-		// Handle Editor mode
-	case 1:
-		// Handle Take a quiz mode
-	case 2:
-		fmt.Println("Exiting...")
+		switch choice {
+		case 0:
+			EditorMode()
+		case 1:
+			// Handle Take a quiz mode
+		case 2:
+			fmt.Println("Exiting...")
+			return
+		}
 	}
 }
 
