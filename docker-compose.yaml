@@ -1,14 +1,36 @@
 services:
-  server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    # ports:
-      # - "8080:8080"
-    env_file:
-      - ./server/.env
-    restart: unless-stopped
+  # server:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   # ports:
+  #     # - "8080:8080"
+  #   env_file:
+  #     - .env # Database secrets
+  #     - ./server/.env # Server secrets and variables
+  #   restart: unless-stopped
 
-    # Allows interactive input
-    stdin_open: true
-    tty: true
+  #   # Allows interactive input
+  #   # stdin_open: true
+  #   # tty: true
+
+  database:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env # Database secrets only
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/postgresql
+  database-adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8080:8080"
+
+
+volumes:
+  db-data:
+    driver: "local"
+    name: "quizzer-database"
