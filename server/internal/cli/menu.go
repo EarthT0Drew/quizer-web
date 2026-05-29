@@ -11,10 +11,10 @@ func Menu(options ...string) int {
 
 	fmt.Scan(&choice)
 
-	if choice < 1 || choice > len(options) {
-		fmt.Println("Invalid choice, please try again.")
-		return Menu(options...)
-	}
+	// if choice < 1 || choice > len(options) {
+	// 	fmt.Println("Invalid choice, please try again.")
+	// 	return Menu(options...)
+	// }
 
 	return choice - 1
 }

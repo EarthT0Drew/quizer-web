@@ -4,7 +4,15 @@ import "fmt"
 
 func Run() {
 	var choice int = MainMenu()
-	fmt.Println(choice)
+
+	switch choice {
+	case 0:
+		// Handle Editor mode
+	case 1:
+		// Handle Take a quiz mode
+	case 2:
+		fmt.Println("Exiting...")
+	}
 }
 
 func MainMenu() int {
@@ -12,15 +20,9 @@ func MainMenu() int {
 	fmt.Println("Select a mode:")
 	choice := Menu("Editor", "Take a quiz", "Exit")
 
-	switch choice {
-	case 0:
-		return 1
-	case 1:
-		return 2
-	case 2:
-		fmt.Println("Exiting...")
-		return 0
-	default:
-		panic("Unexpected choice")
+	if choice < 0 || choice > 2 {
+		panic("Invalid return code: Error in Menu function. Expected 0, 1, or 2, got " + fmt.Sprint(choice) + ".")
 	}
+
+	return choice
 }
