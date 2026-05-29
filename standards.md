@@ -15,6 +15,11 @@ This is the place to standardize elements of this project, such as the database.
 | id | quiz_id | position | type | author | prompt | answer | created_at | updated_at   |
 | int| string  | int      |string| int    | string | string | TBD        | TBD          |
 
+#### Question types
+- Multiple choice ("mcq")
+- Short answer ("answer")
+- True/False ("true_false")
+
 ### MCQ Answers
 | ID | Quiz ID | Question ID | Author | Position | Text | Is correct? | Created at | Last updated |
 |----|---------|-------------|--------|----------|------|-------------|------------|--------------|
