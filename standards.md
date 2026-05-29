@@ -2,32 +2,32 @@
 This is the place to standardize elements of this project, such as the database.
 
 ## Quizzes database
-### Quizzes
+### quizzes
 
-| ID | Name | Author | Description | Created at | Last updated |
-|----|------|--------|-------------|------------|--------------|
-| id | name | author | description | created_at | updated_at   |
-| int|string| int    | string      | TBD        | TBD          |
+| ID | Name | Description | Created at | Last updated | Author |
+|----|------|-------------|------------|--------------|--------|
+| id | name | description | created_at | updated_at   | author |
+| int|string| string      | TBD        | TBD          | int    |
 
-### Questions
-| ID | Quiz ID | Position | Type | Author | Prompt | Answer | Created at | Last updated |
-|----|---------|----------|------|--------|--------|--------|------------|--------------|
-| id | quiz_id | position | type | author | prompt | answer | created_at | updated_at   |
-| int| string  | int      |string| int    | string | string | TBD        | TBD          |
+### questions
+| ID | Quiz ID | Position | Type | Prompt | Answer | Created at | Last updated | Author |
+|----|---------|----------|------|--------|--------|------------|--------------|--------|
+| id | quiz_id | position | type | prompt | answer | created_at | updated_at   | author |
+| int| int     | int      |string| string | string | TBD        | TBD          | int    |
 
 #### Question types
 - Multiple choice ("mcq")
 - Short answer ("answer")
 - True/False ("true_false")
 
-### MCQ Answers
-| ID | Quiz ID | Question ID | Author | Position | Text | Is correct? | Created at | Last updated |
-|----|---------|-------------|--------|----------|------|-------------|------------|--------------|
-| id | quiz_id | question_id | author | position | text | is_correct  | created_at | updated_at   |
-| int| int     | int         | int    | int      |string| bool        | TBD        | TBD          |
+### mcq_answers
+| ID | Quiz ID | Question ID | Position | Text | Is correct? | Created at | Last updated | Author |
+|----|---------|-------------|----------|------|-------------|------------|--------------|--------|
+| id | quiz_id | question_id | position | text | is_correct  | created_at | updated_at   | author |
+| int| int     | int         | int      |string| bool        | TBD        | TBD          | int    |
 
 ## Users database
-### Users
+### users
 | ID | Username | Display Name | Email | Password hash | Created at | Last updated |
 |----|----------|--------------|-------|---------------|------------|--------------|
 | id | username | display_name | email | password_hash | created_at | updated_at   |
