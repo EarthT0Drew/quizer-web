@@ -1,14 +1,14 @@
 services:
-  # server:
-  #   build:
-  #     context: ./server
-  #     dockerfile: Dockerfile
-  #   # ports:
-  #     # - "8080:8080"
-  #   env_file:
-  #     - .env # Database secrets
-  #     - ./server/.env # Server secrets and variables
-  #   restart: unless-stopped
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    # ports:
+      # - "8080:8080"
+    env_file:
+      - .env # Database secrets
+      - ./server/.env # Server secrets and variables
+    restart: on-failure
 
   #   # Allows interactive input
   #   # stdin_open: true

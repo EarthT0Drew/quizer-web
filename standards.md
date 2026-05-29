@@ -32,3 +32,6 @@ This is the place to standardize elements of this project, such as the database.
 |----|----------|--------------|-------|---------------|------------|--------------|
 | id | username | display_name | email | password_hash | created_at | updated_at   |
 | int| string   | string       | string| string        | TBD        | TBD          |
+
+## Environment variables
+- DO_CLI: "true" or "false". Whether to run the CLI instead of the api. Default is "false".
