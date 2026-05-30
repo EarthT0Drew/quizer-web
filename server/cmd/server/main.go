@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 	"quizer-web/internal/cli"
@@ -14,7 +15,8 @@ func main() {
 	fmt.Println("Waiting 0.5 seconds for the database to be ready...")
 	time.Sleep(500 * time.Millisecond)
 
-	database.OpenConnection()
+	var _ *sql.DB = database.OpenConnection("Quizzes")
+	var _ *sql.DB = database.OpenConnection("Users")
 	var doCLI string = strings.ToLower(os.Getenv("DO_CLI"))
 
 	switch doCLI {
