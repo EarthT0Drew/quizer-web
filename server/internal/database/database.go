@@ -7,67 +7,72 @@ import (
 	"time"
 )
 
-func Insert(database *sql.DB, table string, columns []string, values []any) (sql.Result, error) { // TODO: Sanitization
+func insert(database *sql.DB, table string, columns []string, values []any) (int, error) {
 
 	var now string = time.Now().UTC().Format("2006-01-02 15:04:05")
 	columns = append(columns, "created_at", "updated_at")
 	values = append(values, now, now)
 
-	var valuesString string = ""
-
-	for i, value := range values {
-		switch fmt.Sprintf("%T", value) {
-		case "string":
-			valuesString += "'" + fmt.Sprintf("%v", value) + "'"
-		case "int":
-			valuesString += fmt.Sprintf("%v", value)
-		default:
-			valuesString += fmt.Sprintf("%v", value)
-		}
-
-		if i < len(values)-1 {
-			valuesString += ", "
-		}
+	var err error = checkColumnsAndValues(columns, values)
+	if err != nil {
+		return 0, err
 	}
 
-	var query string = "INSERT INTO " + table + " (" + strings.Join(columns, ", ") + ") VALUES (" + valuesString + ")"
+	placeholders := make([]string, len(values))
+	for i := range values {
+		placeholders[i] = fmt.Sprintf("$%d", i+1)
+	}
+
+	var query string = "INSERT INTO " + table + " (" + strings.Join(columns, ", ") + ") VALUES (" + strings.Join(placeholders, ", ") + ") RETURNING id"
 
 	fmt.Println("Querying database: " + query)
 
-	result, err := database.Exec(query)
+	var row *sql.Row = database.QueryRow(query, values...)
+	var id int
+	err = row.Scan(&id)
 
-	return result, err
+	return id, err
 }
 
-func Update(database *sql.DB, table string, id int, columns []string, values []any) (sql.Result, error) { // TODO: Sanitization
-
+func update(database *sql.DB, table string, id int, columns []string, values []any) (bool, error) {
 	var now string = time.Now().UTC().Format("2006-01-02 15:04:05")
 	columns = append(columns, "updated_at")
 	values = append(values, now)
 
+	var err error = checkColumnsAndValues(columns, values)
+	if err != nil {
+		return false, err
+	}
+
 	var setString string = ""
-	for i, value := range values {
+	for i := range values {
 		setString += columns[i] + " = "
 
-		switch fmt.Sprintf("%T", value) {
-		case "string":
-			setString += "'" + fmt.Sprintf("%v", value) + "'"
-		case "int":
-			setString += fmt.Sprintf("%v", value)
-		default:
-			setString += fmt.Sprintf("%v", value)
-		}
+		setString += fmt.Sprintf("$%d", i+1)
 
 		if i < len(values)-1 {
 			setString += ", "
 		}
 	}
 
-	var query string = "UPDATE " + table + " SET " + setString + " WHERE id = " + fmt.Sprintf("%v", id)
+	var query string = "UPDATE " + table + " SET " + setString + " WHERE id = " + fmt.Sprintf("$%d", len(values)+1)
 
 	fmt.Println("Querying database: " + query)
 
-	result, err := database.Exec(query)
+	_, err = database.Exec(query, append(values, id)...)
 
-	return result, err
+	var success bool = false
+	if err == nil {
+		success = true
+	}
+
+	return success, err
+}
+
+func checkColumnsAndValues(columns []string, values []any) error {
+	if len(columns) != len(values) {
+		return fmt.Errorf("Uneven columns and values.")
+	} else {
+		return nil
+	}
 }
